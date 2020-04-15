@@ -13,6 +13,10 @@ export default (drive: IDriveModel, database: IDatabaseModel, calendarModel: ICa
   app.use(setUserID(database));
   app.use("/api", api(drive, database, calendarModel));
 
+  app.get("/", (_req, res) => {
+    res.sendStatus(200);
+  })
+
   app.use((_req, _res, next) => {
     next(404);
   });
