@@ -15,6 +15,8 @@ export default (database: IDatabaseModel): RequestHandler => {
                     res.clearCookie("ccsession");
                     next();
                 })
+        } else {
+            next();
         }
     };
 }
