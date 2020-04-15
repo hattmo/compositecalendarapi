@@ -1,20 +1,32 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+import api from "./routes/api";
+import setUserID from "./middleware/setUserID";
+import { IDatabaseModel } from "./models/db";
+import { IDriveModel } from "./models/drive";
+import { ICalendarModel } from "./models/calendars";
 
-const app = express();
-app.use(express.json());
+export default (drive: IDriveModel, database: IDatabaseModel, calendarModel: ICalendarModel) => {
 
-app.use((_req, _res, next) => {
-  next(404);
-});
+  const app = express();
+  app.use(cookieParser());
+  app.use(setUserID(database));
+  app.use("/api", api(drive, database, calendarModel));
 
-app.use((err, _req, res, _next) => {
+  app.use((_req, _res, next) => {
+    next(404);
+  });
 
-  if (err === 404) {
-    res.sendStatus(404);
-  } else {
-    res.sendStatus(500);
-    process.stderr.write(err + "\n");
-  }
-});
+  app.use((err, _req, res, _next) => {
 
-export default app;
+    if (err === 404) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(500);
+      process.stderr.write(err + "\n");
+    }
+  });
+
+  return app;
+
+}
