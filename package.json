@@ -34,7 +34,7 @@
         "cookie-parser": "^1.4.5",
         "express": "^4.17.1",
         "google-auth-library": "^7.1.2",
-        "googleapis": "^77.0.0",
+        "googleapis": "^78.0.0",
         "mongodb": "^3.6.9",
         "node-fetch": "^2.6.1"
     }
